@@ -53,12 +53,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    private int  SELECT_FILE = 1;
     ProgressDialog progressDialog;
     ImageView image_upload;
     Button btn_gallery,btn_submit;
     String profile_imageString;
-    File imageFile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
                 galleryIntent();
             }
         });
+
+
     }
     private void galleryIntent() {
         Intent intent = new Intent();
@@ -88,49 +89,12 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
     }
 
-   /* @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    profile_imageString= FileUtils.getPath(getApplicationContext(),data.getData());
-                    onSelectFromGalleryResult(data);
-                }
 
-
-        }
-    }
-    @SuppressWarnings("deprecation")
-    private void onSelectFromGalleryResult(Intent data) {
-
-            Bitmap bm=null;
-            if (data != null) {
-                try {
-                    bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            bm.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-            byte[] imageBytes = bytes.toByteArray();
-            profile_imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-            image_upload.setImageBitmap(bm);
-            // DOC_TYPE="Image.jpg";
-          //  DOC_TYPE = current_image+".png";
-            Log.e("IMAGE",profile_imageString);
-           // uploadFile(Drive);
-///content://com.android.providers.media.documents/document/image%3A127597
-    }*/
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             String path = data.getData().getPath();
-           // image_upload.setImageBitmap(selectedImageUri);
-           // imageFile = new File(getRealPathFromURI(selectedImageUri));
-          //  String picturePath = getRealPathFromURI(getApplication(), selectedImageUri);
             Bitmap bm=null;
             if (data != null) {
                 try {
@@ -145,68 +109,24 @@ public class MainActivity extends AppCompatActivity {
            // profile_imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
             image_upload.setImageBitmap(bm);
 
+            /////call upload methode google drive //////////////
+           /* try {
+                uploadFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }*/
 
             Log.d("Picture Path", path);
         }
     }
 
-    public static String getPath(Context context, Uri uri ) {
-        String result = null;
-        String[] proj = { MediaStore.Images.Media.DATA };
-        Cursor cursor = context.getContentResolver( ).query( uri, proj, null, null, null );
-        if(cursor != null){
-            if ( cursor.moveToFirst( ) ) {
-                int column_index = cursor.getColumnIndexOrThrow( proj[0] );
-                result = cursor.getString( column_index );
-            }
-            cursor.close( );
-        }
-        if(result == null) {
-            result = "Not found";
-        }
-        return result;
-    }
-   /* private String getRealPathFromURI(Uri contentURI) {
-        String result;
-        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            result = contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            result = cursor.getString(idx);
-            cursor.close();
-        }
-        return result;
-    }*/
 
-    private String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } catch (Exception e) {
-           // Log.e(TAG, "getRealPathFromURI Exception : " + e.toString());
-            return "";
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
+////////////////////////////upload methode google drive ///////////////////////
 
-    public static String uploadFile(Drive drive, String folderId) throws IOException {
 
-        /*
-         * drive: an instance of com.google.api.services.drive.Drive class
-         * folderId: The id of the folder where you want to upload the file, It can be
-         * located in 'My Drive' section or 'Shared with me' shared drive with proper
-         * permissions.
-         * */
-
+    public static String uploadFile( ) throws IOException {
+        Drive drive = null;
+        String folderId = null;
         File fileMetadata = new File();
         fileMetadata.setName("photo.jpg");
         fileMetadata.setParents(Collections.singletonList(folderId));
@@ -286,5 +206,8 @@ public class MainActivity extends AppCompatActivity {
         alert.setTitle("Successfully");
         alert.show();
     }
+
+
+
 
 }
