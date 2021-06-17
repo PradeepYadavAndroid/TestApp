@@ -17,21 +17,6 @@ import retrofit2.http.QueryMap;
 public interface ApiInterface {
 // String drive = " https://drive.google.com/drive/u/0/folders/16k65ZRoYEFVqn7__cfvxrSC3FMB5517d";
 
-@FormUrlEncoded
- @POST("assignment/Add")
- public Call<JsonElement> SaveAssignment(@Field("Assignment_Body") String Assignment_Body, @Field("Assignment_Name") String Assignment_Name,
-                                         @Field("M_Section_Id") String M_Section_Id, @Field("M_Class_Id") String M_Class_Id, @Field("M_Subject_Id") String M_Subject_Id,
-                                         @Field("T_Person_Detail_Id") String T_Person_Detail_Id, @Field("FromDate") String FromDate, @Field("ToDate") String ToDate,
-                                         @Field("File_Name") String File_Name, @Field("File_Base64") String File_Base64, @Field("Type") String Type);
-
-
- @FormUrlEncoded
- @POST("notification/Add")
- public Call<JsonElement> SaveAnnouncement(@Field("Message_From") String Message_From, @Field("Notification") String Notification,
-                                           @Field("M_Section_Id") String M_Section_Id, @Field("M_CLass_Id") String M_CLass_Id, @Field("M_Subject_Id") String M_Subject_Id,
-                                           @Field("T_Person_Detail_Id") String T_Person_Detail_Id,
-                                           @Field("File_Name") String File_Name, @Field("File_Base64") String File_Base64);
-
 
 
 
