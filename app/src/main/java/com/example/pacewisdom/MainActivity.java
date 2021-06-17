@@ -2,6 +2,9 @@ package com.example.pacewisdom;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -23,12 +26,20 @@ import com.example.pacewisdom.Const.FileUtils;
 import com.example.pacewisdom.Retrofit.ApiClient;
 import com.example.pacewisdom.Retrofit.ApiInterface;
 import com.example.pacewisdom.Services.Utility;
+
+import com.google.api.client.http.FileContent;
+
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.model.File;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
 import java.io.ByteArrayOutputStream;
 
+
+
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -106,6 +117,29 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    public static String uploadFile(Drive drive, String folderId) throws IOException {
+
+        /*
+         * drive: an instance of com.google.api.services.drive.Drive class
+         * folderId: The id of the folder where you want to upload the file, It can be
+         * located in 'My Drive' section or 'Shared with me' shared drive with proper
+         * permissions.
+         * */
+
+        File fileMetadata = new File();
+        fileMetadata.setName("photo.jpg");
+        fileMetadata.setParents(Collections.singletonList(folderId));
+        java.io.File filePath = new java.io.File("files/photo.jpg");
+        FileContent mediaContent = new FileContent("image/jpeg", filePath);
+
+        File file = drive.files().create(fileMetadata, mediaContent)
+                .setFields("id")
+                .execute();
+        System.out.println("File ID: " + file.getName());
+        return file.getName();
+    }
+
 
 
     private void SaveGallery(){

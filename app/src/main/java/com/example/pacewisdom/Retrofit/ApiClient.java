@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    public static final String BASE_URL = "https://drive.google.com/drive/u/0/folders/";
+    public static final String BASE_URL = "https://drive.google.com/drive/u/0/folders/16k65ZRoYEFVqn7__cfvxrSC3FMB5517d";
     private static Retrofit retrofit = null;
 
 

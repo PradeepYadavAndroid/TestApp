@@ -23,7 +23,7 @@ public interface ApiInterface {
 
  @FormUrlEncoded
  @POST("")
- public Call<JsonElement> SaveGallery(@Field("https://drive.google.com/drive/u/0/folders/16k65ZRoYEFVqn7__cfvxrSC3FMB5517d") String File_Base64);
+ public Call<JsonElement> SaveGallery(@Field("/16k65ZRoYEFVqn7__cfvxrSC3FMB5517d") String File_Base64);
 
 
 

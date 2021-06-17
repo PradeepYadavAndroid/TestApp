@@ -41,4 +41,15 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     implementation 'org.jetbrains:annotations-java5:15.0'
     testImplementation 'junit:junit:4.12'
+    //noinspection GradleCompatible
+    implementation 'com.google.android.gms:play-services-drive:+'
+
+    implementation "com.google.android.gms:play-services-auth:"
+    //implementation "com.google.android.gms:play-services-drive:"
+    implementation 'com.squareup.okio:okio:1.14.0'
+    implementation 'com.google.android.gms:play-services-auth:11.6.0'
+    implementation 'com.google.android.gms:play-services-drive:11.6.0'
+    implementation 'com.google.api-client:google-api-client:1.23.0'
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
+    implementation 'com.google.apis:google-api-services-drive:v3-rev110-1.23.0'
 }
